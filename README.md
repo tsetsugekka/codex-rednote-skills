@@ -22,8 +22,6 @@
 
 这个仓库是更宽泛的 RED/小红书相关 Codex skill suite。当前先包含 RED Skill 发布流程；仓库名刻意保留扩展空间，后续可以继续加入自动发布小红书图文、自动生成小红书信息图等 skill。
 
-因为小红书是中文社区，这个仓库的 GitHub 默认 README 使用中文；仓库简介也应使用中文。
-
 ## 当前包含的 Skill
 
 | Skill | 用途 |
@@ -66,15 +64,6 @@ skills/
 ```text
 使用 $red-skill-publish 把这个本地 Codex skill 发布到 RED Skill。请根据 skill 内容推荐分类，先 dry-run，确认 payload 正确后再提交。
 ```
-
-## 后续范围
-
-未来可以在同一个 suite 中加入：
-
-- 自动发布小红书图文内容；
-- 自动生成小红书信息图；
-- 生成本地化 RED Skill 展示文案；
-- 检查 RED/小红书内容包中的 secret 和私有数据。
 
 ## 安全规则
 

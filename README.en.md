@@ -22,8 +22,6 @@
 
 This repository is a broader Codex skill suite for RED/Xiaohongshu workflows. It starts with RED Skill publishing, and is intentionally named broadly enough to later include skills for publishing Xiaohongshu posts and generating Xiaohongshu-style infographics.
 
-Because Xiaohongshu is a Chinese community, the default GitHub README for this repository is Chinese. The GitHub repository description should also be Chinese.
-
 ## Included Skills
 
 | Skill | Purpose |
@@ -66,15 +64,6 @@ skills/
 ```text
 Use $red-skill-publish to publish this local Codex skill to RED Skill. Recommend categories from the skill content, run dry-run first, and only submit after the payload is correct.
 ```
-
-## Future Scope
-
-Planned companion skills can live in the same suite, for example:
-
-- publishing image-and-text content to Xiaohongshu,
-- generating Xiaohongshu information graphics,
-- preparing localized RED Skill listing copy,
-- checking RED/Xiaohongshu content packages for secrets and private data.
 
 ## Security Rules
 
