@@ -1,0 +1,4 @@
+interface:
+  display_name: "RED Skill发布"
+  short_description: "发布本地Codex skill到RED Skill"
+  default_prompt: "使用$red-skill-publish把这个本地Codex skill发布到RED Skill，先dry-run检查字段、标签和上传包，再确认提交。"
