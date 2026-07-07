@@ -26,7 +26,7 @@
 
 | Skill | 用途 |
 | --- | --- |
-| `red-skill-publish` | 将本地单个 Codex skill 发布到 RED Skill，包含字段限制检查、分类推荐、dry-run 校验、安全上传包生成和提交结果回报 |
+| `red-skill-publish` | 将本地单个 Codex skill 发布到 RED Skill，包含字段限制检查、分类推荐、dry-run 校验、安全上传包生成、新建提交、已有 Skill 覆盖更新和提交结果回报 |
 
 ## `red-skill-publish`
 
@@ -40,6 +40,7 @@
 - 检查 RED Skill 字段限制：Skill 名称 15 字、Skill ID 128 字、简介 1000 字、介绍 10000 字。
 - 根据 skill 内容推荐 RED Skill 分类，不固定默认分类。
 - 正式提交前必须 dry-run，并检查返回 payload。
+- 支持已有 RED Skill 更新：当普通提交返回 `Skill ID 已被占用` 时，使用已有数字 `skill_id` 提交新版本，而不是改一个新 ID 重新发布。
 - 提交后报告 `skill_id`、`version_id`、`audit_request_id` 和审核状态。
 
 ## 推荐结构
@@ -57,12 +58,17 @@ skills/
       troubleshooting.md
     scripts/
       prepare_red_skill_package.py
+      submit_existing_red_skill.js
 ```
 
 ## 示例请求
 
 ```text
 使用 $red-skill-publish 把这个本地 Codex skill 发布到 RED Skill。请根据 skill 内容推荐分类，先 dry-run，确认 payload 正确后再提交。
+```
+
+```text
+使用 $red-skill-publish 更新我已经发布过的 RED Skill。已有 skill_id 是 1234，请保持原 Skill ID，不要重新创建一个新条目。
 ```
 
 ## 安全规则

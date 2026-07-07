@@ -26,11 +26,11 @@ This repository is a broader Codex skill suite for RED/Xiaohongshu workflows. It
 
 | Skill | Purpose |
 | --- | --- |
-| `red-skill-publish` | Publish a local single Codex skill to RED Skill with field-limit checks, category selection, dry-run validation, safe upload packaging, and submission reporting |
+| `red-skill-publish` | Publish or update a local single Codex skill on RED Skill with field-limit checks, category selection, dry-run validation, safe upload packaging, existing-skill version updates, and submission reporting |
 
 ## `red-skill-publish`
 
-Use this skill when Codex needs to publish an existing local Codex skill to **RED Skill**.
+Use this skill when Codex needs to publish an existing local Codex skill to **RED Skill**, or submit a new version for an existing RED Skill.
 
 Key behavior:
 
@@ -40,6 +40,7 @@ Key behavior:
 - Checks RED Skill limits: 15-character display name, 128-character skill ID, 1000-character description, and 10000-character introduction.
 - Chooses RED Skill categories from the skill content instead of using a fixed default.
 - Runs dry-run before submit and verifies the returned payload.
+- Supports existing RED Skill updates: when a normal submit returns `Skill ID 已被占用`, it uses the known numeric `skill_id` to submit a new version instead of changing the skill identifier and creating a duplicate.
 - Reports `skill_id`, `version_id`, `audit_request_id`, and review state after submission.
 
 ## Recommended Layout
@@ -57,12 +58,17 @@ skills/
       troubleshooting.md
     scripts/
       prepare_red_skill_package.py
+      submit_existing_red_skill.js
 ```
 
 ## Example Prompt
 
 ```text
 Use $red-skill-publish to publish this local Codex skill to RED Skill. Recommend categories from the skill content, run dry-run first, and only submit after the payload is correct.
+```
+
+```text
+Use $red-skill-publish to update an existing RED Skill. The existing skill_id is 1234; keep the original Skill ID and do not create a duplicate entry.
 ```
 
 ## Security Rules
