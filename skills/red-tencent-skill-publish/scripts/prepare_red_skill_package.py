@@ -72,7 +72,7 @@ def is_forbidden(path: Path) -> str | None:
     if name in FORBIDDEN_NAMES or name.startswith(".env."):
         return f"forbidden file name: {name}"
     lower = name.lower()
-    if lower.endswith(".private.md") or (lower.startswith("private") and not lower.endswith(".template.md")):
+    if lower.endswith(".private.md") or lower in {"private.md", "context.md", "credentials.json"}:
         return "private record"
     for suffix in FORBIDDEN_SUFFIXES:
         if lower.endswith(suffix):
