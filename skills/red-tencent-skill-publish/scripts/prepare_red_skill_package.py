@@ -39,7 +39,7 @@ FORBIDDEN_NAMES = {
 }
 SECRET_PATTERNS = [
     re.compile(r"BEGIN [A-Z ]*PRIVATE KEY"),
-    re.compile(r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|secret)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{16,}"),
+    re.compile(r"(?i)\b(api[_-]?key|access[_-]?token|refresh[_-]?token|secret)\b[ \t]*[:=][ \t]*['\"]?[A-Za-z0-9_\-]{16,}"),
 ]
 
 
