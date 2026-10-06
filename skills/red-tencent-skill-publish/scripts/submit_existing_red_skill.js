@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { pathToFileURL } from 'node:url';
 
 function parseArgs(argv) {
   const args = {};
@@ -32,14 +32,13 @@ function resolveUploaderRoot(args) {
     return path.resolve(explicit);
   }
   const candidates = [
-    path.resolve(process.cwd(), 'skillhub-upload-prefix/lib/node_modules/@xhs/skillhub-upload'),
-    path.resolve(process.cwd(), 'node_modules/@xhs/skillhub-upload')
+    path.resolve(process.cwd(), 'node_modules/redskillhub-upload')
   ];
   const found = candidates.find((candidate) => fs.existsSync(path.join(candidate, 'cli/index.mjs')));
   if (found) {
     return found;
   }
-  throw new Error('missing uploader root; pass --uploader-root /path/to/@xhs/skillhub-upload');
+  throw new Error('missing uploader root; pass --uploader-root /path/to/redskillhub-upload');
 }
 
 async function importUploader(root, relPath) {
@@ -63,31 +62,31 @@ function compactBody(body) {
   };
 }
 
-function isRejected(httpOk, body) {
-  const compact = compactBody(body);
-  if (!httpOk) {
-    return true;
-  }
-  if (compact.success === false) {
-    return true;
-  }
-  return compact.code !== null
-    && compact.code !== undefined
-    && compact.code !== 0
-    && compact.code !== '0'
-    && compact.code !== 'OK';
-}
-
 const args = parseArgs(process.argv.slice(2));
+if (args.env !== 'prod') {
+  throw new Error('existing RED Skill updates require --env prod');
+}
+if (args['api-base']) {
+  throw new Error('--api-base is not supported; use the official production endpoint');
+}
 const uploaderRoot = resolveUploaderRoot(args);
+const uploaderPackage = JSON.parse(fs.readFileSync(path.join(uploaderRoot, 'package.json'), 'utf8'));
+if (uploaderPackage.name !== 'redskillhub-upload') {
+  throw new Error('update the official CLI to redskillhub-upload before using this helper');
+}
+if (!/^\d+\.\d+\.\d+$/.test(uploaderPackage.version || '')) {
+  throw new Error('use the official latest stable CLI for production updates');
+}
 const packagePath = path.resolve(requireArg(args, 'package'));
 const skillId = requireArg(args, 'skill-id');
+if (!/^\d+$/.test(skillId)) {
+  throw new Error('--skill-id must be the existing numeric RED Skill ID');
+}
 const identifier = requireArg(args, 'identifier');
 const name = requireArg(args, 'name');
-const version = args.version || '1.0.1';
-const source = args.source || 'original';
+const version = requireArg(args, 'version');
+const source = requireArg(args, 'source');
 const tag = args.tag || args['tag-id'];
-const apiBaseOverride = args['api-base'];
 
 if (!tag) {
   throw new Error('missing required argument: --tag or --tag-id');
@@ -95,12 +94,14 @@ if (!tag) {
 
 const { prepareBundle } = await importUploader(uploaderRoot, 'cli/pack.mjs');
 const { uploadBundle } = await importUploader(uploaderRoot, 'cli/upload.mjs');
-const { buildDraftPayload } = await importUploader(uploaderRoot, 'cli/submit.mjs');
-const { readCredentials } = await importUploader(uploaderRoot, 'cli/auth.mjs');
-const { DEFAULT_API_BASE } = await importUploader(uploaderRoot, 'cli/config.mjs');
+const { buildDraftPayload, submitSkillVersion } = await importUploader(uploaderRoot, 'cli/submit.mjs');
+const { readCredentials, login } = await importUploader(uploaderRoot, 'cli/auth.mjs');
+const { ensurePublishCredentials } = await importUploader(uploaderRoot, 'cli/index.mjs');
 const { loadContentTags } = await importUploader(uploaderRoot, 'cli/tags.mjs');
+const { resolveApiBase, DEFAULT_API_BASE } = await importUploader(uploaderRoot, 'cli/config.mjs');
 
 const flags = {
+  env: 'prod',
   source,
   name,
   identifier,
@@ -110,12 +111,12 @@ const flags = {
 if (args['repost-source']) {
   flags.repostSource = args['repost-source'];
 }
-if (apiBaseOverride) {
-  flags.apiBase = apiBaseOverride;
+if (resolveApiBase(flags, process.env) !== DEFAULT_API_BASE) {
+  throw new Error('production updates cannot override the official API base');
 }
 
 const tagOptions = await loadContentTags({ flags, env: process.env });
-const bundle = await prepareBundle(packagePath, { env: process.env });
+const bundle = await prepareBundle(packagePath, { env: process.env, flags });
 const bundleMetadata = {
   bundleSha256: bundle.bundleSha256,
   bundleSizeBytes: bundle.bundleSizeBytes
@@ -143,14 +144,12 @@ if (args.dryRun) {
   process.exit(0);
 }
 
-const credentials = await readCredentials(process.env);
-if (!credentials?.accessToken) {
-  throw new Error('missing RED Skill credentials; run skillhub-upload login first');
-}
+const credentials = await ensurePublishCredentials({ flags, env: process.env, readCredentials, login });
 
 const upload = await uploadBundle(bundle, {
   accessToken: credentials.accessToken,
   flags,
+  env: process.env,
   progressStream: process.stderr
 });
 const payload = {
@@ -160,30 +159,9 @@ const payload = {
   bundle_size_bytes: upload.bundleSizeBytes
 };
 
-const apiBase = apiBaseOverride || DEFAULT_API_BASE;
-const endpoint = '/api/sns/v1/creator/red_skill/cli_submit_skill_version';
-const response = await fetch(`${apiBase}${endpoint}`, {
-  method: 'POST',
-  headers: {
-    authorization: `Bearer ${credentials.accessToken}`,
-    'content-type': 'application/json'
-  },
-  body: JSON.stringify(payload)
-});
-const body = await response.json().catch(() => ({}));
-const compact = compactBody(body);
-
-if (isRejected(response.ok, body)) {
-  console.log(JSON.stringify({
-    status: 'error',
-    code: 'SUBMIT_REJECTED',
-    http: response.status,
-    response: compact
-  }, null, 2));
-  process.exit(22);
-}
+const body = await submitSkillVersion(payload, { flags, env: process.env, accessToken: credentials.accessToken });
 
 console.log(JSON.stringify({
   status: 'submitted',
-  response: compact
+  response: compactBody(body)
 }, null, 2));

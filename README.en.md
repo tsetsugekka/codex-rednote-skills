@@ -1,82 +1,40 @@
-<h1 align="center">Codex RED Note Skills</h1>
+<h1 align="center">Codex Skill Publishing Workflow</h1>
 
-<p align="center">
-  A public-safe Codex skill suite for RED Skill publishing and future RED/Xiaohongshu content workflows.
-</p>
+<p align="center">Publish or update local skills in Chinese on RED Skill (Xiaohongshu) and Tencent SkillHub.</p>
+<p align="center"><a href="./README.md">中文</a> · <a href="./README.en.md">English</a></p>
 
-<p align="center">
-  <a href="./README.md">中文</a>
-  ·
-  <a href="./README.en.md">English</a>
-</p>
+## Included Skill
 
-<p align="center">
-  <img alt="Codex" src="https://img.shields.io/badge/Codex-Skills-111827?style=for-the-badge">
-  <img alt="RED Skill" src="https://img.shields.io/badge/RED%20Skill-Publishing-dc2626?style=for-the-badge">
-  <img alt="Public Safe" src="https://img.shields.io/badge/Public--Safe-No%20Secrets-0f766e?style=for-the-badge">
-</p>
+[`red-tencent-skill-publish`](skills/red-tencent-skill-publish/SKILL.md) unifies RED and Tencent publishing and supports either user-selected platform or both. Updates preserve existing platform identities.
 
----
+- Translate English and Japanese instructions into a complete Chinese publishing copy, preserving rules, commands, and references. Keep the source repository language unless requested otherwise.
+- Reuse existing IDs and slugs; prefer CLI content updates without creating duplicate listings.
+- Use the current official production RED tool. Load CLI updates and expired authorization recovery only when needed; use the browser to obtain the official tool, authorize, and verify listings.
+- Use the Tencent website for a first publication requiring a platform icon. Prefer CLI for subsequent content updates; use the website to change the icon. An image inside a bundle does not set the platform icon.
+- Use light backgrounds and modern flat icons with few elements; keep each series consistent and functions distinct. For icon-only changes, reuse the current skill files on the website.
+- Verify metadata, package content, and authorization. Report local validation, review submission, and public release separately for each platform.
 
-## What This Is
+## Use
 
-This repository is a broader Codex skill suite for RED/Xiaohongshu workflows. It starts with RED Skill publishing, and is intentionally named broadly enough to later include skills for publishing Xiaohongshu posts and generating Xiaohongshu-style infographics.
-
-## Included Skills
-
-| Skill | Purpose |
-| --- | --- |
-| `red-skill-publish` | Publish or update a local single Codex skill on RED Skill with field-limit checks, category selection, dry-run validation, safe upload packaging, existing-skill version updates, and submission reporting |
-
-## `red-skill-publish`
-
-Use this skill when Codex needs to publish an existing local Codex skill to **RED Skill**, or submit a new version for an existing RED Skill.
-
-Key behavior:
-
-- Requires the official RED Skill publishing tool.
-- Builds a single-skill upload package.
-- Excludes `agents/`, caches, logs, databases, backups, credentials, and private files.
-- Checks RED Skill limits: 15-character display name, 128-character skill ID, 1000-character description, and 10000-character introduction.
-- Chooses RED Skill categories from the skill content instead of using a fixed default.
-- Runs dry-run before submit and verifies the returned payload.
-- Supports existing RED Skill updates: when a normal submit returns `Skill ID 已被占用`, it uses the known numeric `skill_id` to submit a new version instead of changing the skill identifier and creating a duplicate.
-- Reports `skill_id`, `version_id`, `audit_request_id`, and review state after submission.
-
-## Recommended Layout
+Install `skills/red-tencent-skill-publish` in the Codex skills directory. It relies on official platform tools and does not include credentials.
 
 ```text
-skills/
-  red-skill-publish/
-    SKILL.md
-    agents/
-      openai.yaml
-    references/
-      category-selection.md
-      field-limits.md
-      package-rules.md
-      troubleshooting.md
-    scripts/
-      prepare_red_skill_package.py
-      submit_existing_red_skill.js
-```
-
-## Example Prompt
-
-```text
-Use $red-skill-publish to publish this local Codex skill to RED Skill. Recommend categories from the skill content, run dry-run first, and only submit after the payload is correct.
+Use $red-tencent-skill-publish to translate this English skill into a Chinese publishing copy and update its existing RED Skill and Tencent SkillHub listings. Preserve their IDs, source attribution, categories, and icons.
 ```
 
 ```text
-Use $red-skill-publish to update an existing RED Skill. The existing skill_id is 1234; keep the original Skill ID and do not create a duplicate entry.
+Use $red-tencent-skill-publish to restore expired RED CLI authorization, then update the existing skill through CLI. Use the website only for tool updates and authorization.
 ```
 
-## Security Rules
+```text
+Use $red-tencent-skill-publish for a first Tencent SkillHub publication with an icon; use the website.
+```
 
-- Do not upload credentials, cookies, tokens, `.env` files, private local paths, logs, database files, backups, or private screenshots.
-- Do not include `agents/` in RED Skill upload packages.
-- Do not claim submission succeeded until the official RED Skill tool returns a submitted response.
-- Do not claim audit approval unless RED Skill explicitly shows approval.
+## Resources
+
+The main file contains shared rules and conditional entry points. Platform workflows, translation, RED CLI authorization recovery, field limits, and categories live in [references](skills/red-tencent-skill-publish/references). The two scripts validate RED publishing copies and update existing listings through official modules; they do not replace authorization or prove audit approval.
+
+Exclude credentials, cookies, private logs, databases, backups, account screenshots, and private paths. RED bundles exclude `agents/`. Verify current official tool capabilities and versions for each run.
 
 ## License
 
