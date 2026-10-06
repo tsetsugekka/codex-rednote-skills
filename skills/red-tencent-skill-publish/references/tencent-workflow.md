@@ -1,6 +1,6 @@
 # 腾讯 SkillHub 发布、更新与图标
 
-平台为 `https://skillhub.cn`，CLI 为 `skillhub`；与小红书 `redskillhub-upload` 分开。执行前检查当前 `skillhub --version`、`skillhub publish --help`，不把旧版本能力写成永久限制。
+平台为 `https://skillhub.cn`，CLI 为 `skillhub`；与小红书 `redskillhub-upload` 分开。初次安装或授权问题先读 [环境配置](tencent-environment.md)；网页操作读 [网页 Workflow](tencent-web.md)。执行前检查当前 `skillhub --version`、`skillhub publish --help`，不把旧版本能力写成永久限制。
 
 ## 选择入口
 
@@ -16,7 +16,7 @@
 ## 准备与 CLI 提交
 
 1. 定位所有者和已有 `slug`、当前公开／待审核版本，保留来源和平台元数据。不因为更新报 slug 冲突就另建相似条目；核对账号归属和审核状态。
-2. 完成 [中文发布副本](publishing-language.md)。包根包含 `SKILL.md`；只纳入本次公开文件，显式检查文件清单，不仅依赖 CLI 默认排除规则。README 可随包，但不复制内部维护记录。
+2. 先按 [公开打包](public-package.md) 生成干净副本，再完成 [中文发布副本](publishing-language.md)。AGENTS 规则先按 [包装流程](agents-wrapper.md) 增加根入口。包根包含 `SKILL.md`；只纳入本次公开文件，显式检查文件清单，不仅依赖 CLI 默认排除规则。README 可随包，但不复制内部维护记录。
 3. 在发布副本 frontmatter 中补齐当前 CLI 元数据。2026.8.5 必填 `slug`（kebab-case）、`version`（SemVer）、`displayName`；保留 Skill 本身的 `name` 与 `description`，再按需要填写 `summary`、`tags: [标签1, 标签2]`、`license`、`homepage`。展示文案中文；来源不是自动填 GitHub，许可证也不随意新增。
 4. 先运行 `skillhub --skip-self-upgrade publish "<中文副本>" --version "<新版本>" --dry-run --json`。该版本 dry-run 仅验证元数据，不能证明上传、签名、图标或文件扫描通过；另行检查包内容、语言和所有待提交字段。
 5. 用官方 `skillhub auth whoami` 核对授权。当前凭据由 CLI 保存在 `~/.skillhub/credentials.json`，使用其已保存凭据；不要把 token 放入 `--token` 或 `--key` 参数。失效时由用户在官方页面和可靠隐藏输入流程恢复，遵守当前环境凭据规则，不要求发到聊天。

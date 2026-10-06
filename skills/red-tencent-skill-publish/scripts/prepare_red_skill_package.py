@@ -14,6 +14,8 @@ from pathlib import Path
 ALLOWED_DIRS = ("scripts", "references", "assets")
 FORBIDDEN_DIRS = {
     ".git",
+    "private",
+    ".private",
     "agents",
     "__pycache__",
     ".pytest_cache",
@@ -30,6 +32,9 @@ FORBIDDEN_SUFFIXES = (
 )
 FORBIDDEN_NAMES = {
     ".env",
+    "PRIVATE.md",
+    "context.md",
+    "credentials.json",
     ".DS_Store",
 }
 SECRET_PATTERNS = [
@@ -67,6 +72,8 @@ def is_forbidden(path: Path) -> str | None:
     if name in FORBIDDEN_NAMES or name.startswith(".env."):
         return f"forbidden file name: {name}"
     lower = name.lower()
+    if lower.endswith(".private.md") or (lower.startswith("private") and not lower.endswith(".template.md")):
+        return "private record"
     for suffix in FORBIDDEN_SUFFIXES:
         if lower.endswith(suffix):
             return f"forbidden suffix: {suffix}"
@@ -78,11 +85,20 @@ def copy_allowed(source: Path, output: Path) -> None:
         raise ValueError(f"output directory already exists and is not empty: {output}")
     output.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source / "SKILL.md", output / "SKILL.md")
+    manifest = source / "PUBLIC-FILES.txt"
+    if manifest.is_file():
+        if manifest.is_symlink():
+            raise ValueError("public manifest cannot be a symlink")
+        shutil.copy2(manifest, output / manifest.name)
     for dirname in ALLOWED_DIRS:
         src_dir = source / dirname
         if src_dir.exists():
             if not src_dir.is_dir():
                 raise ValueError(f"expected directory: {src_dir}")
+            for candidate in src_dir.rglob("*"):
+                rel = candidate.relative_to(source)
+                if candidate.is_symlink() or is_forbidden(rel):
+                    raise ValueError(f"not a public resource: {rel}")
             shutil.copytree(src_dir, output / dirname)
 
 

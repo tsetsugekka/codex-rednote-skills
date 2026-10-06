@@ -2,7 +2,7 @@
 
 只操作用户指定的单个 Skill；suite 逐项处理。使用当前官方生产 CLI，每条命令显式 `--env prod`。工具或授权有问题时先读 [CLI 与授权恢复](red-cli-auth.md)。
 
-1. 读取 [字段限制](field-limits.md)、[分类选择](category-selection.md)、[包规则](package-rules.md)，按主规则完成中文发布副本。保留原 Skill ID 和展示名；原创／转载及分类用会话中已明确的值，缺失时一次询问。
+1. 读取 [字段限制](field-limits.md)、[分类选择](category-selection.md)、[包规则](package-rules.md)，先按 [公开打包](public-package.md) 生成干净副本，再按主规则完成中文发布副本；AGENTS 规则先按 [包装流程](agents-wrapper.md) 增加根入口。保留原 Skill ID 和展示名；原创／转载及分类用会话中已明确的值，缺失时一次询问。
 2. 新建与更新先区分。更新必须取得已有数字 `skill_id`：历史成功回执、官方版本历史或用户提供。不能用新 identifier 绕过“Skill ID 已被占用”。审核中是否允许更新以平台实际状态为准；需要撤回时先确认用户意图，不自动撤回。
 3. 官方工具打包校验；可用 `scripts/prepare_red_skill_package.py --source "<源>" --output "<空目录>" --display-name "<名称>"` 制作公开副本，再翻译并执行 `--validate-only`。该脚本只验证 RED 字段及常见敏感文件，不证明翻译或全部资源安全。
 4. 新建：运行官方 `redskillhub-upload publish "<中文副本>" --agent --source original --tag "<分类>" --name "<展示名>" --identifier "<ID>" --version "<版本>" --env prod`，在等待 `PROMPT.type=confirm` 的同一进程中核对 payload。当前官方流程优先以确认提示作为预提交检查；若本次官方流程支持／要求 dry-run，按其说明执行，不假定所有版本输出相同。

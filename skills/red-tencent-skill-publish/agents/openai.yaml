@@ -1,4 +1,4 @@
 interface:
-  display_name: "RED与腾讯Skill发布"
-  short_description: "以中文发布或更新本地 Skill 到 RED Skill 和腾讯 SkillHub"
-  default_prompt: "使用$red-tencent-skill-publish将这个本地 Skill 以中文发布或更新到我指定的 RED Skill 或腾讯 SkillHub，核对原条目、工具授权与图标需求后提交。"
+  display_name: "Skill多平台发布助手"
+  short_description: "将 Skill 或 AGENTS 规则以中文发布到 GitHub、RED Skill 和腾讯 SkillHub"
+  default_prompt: "使用$red-tencent-skill-publish将这个本地 Skill 或 AGENTS 规则以中文发布或更新到我指定的 GitHub、RED Skill 或腾讯 SkillHub，核对原条目、工具授权与图标需求后提交。"

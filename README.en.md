@@ -1,17 +1,21 @@
 <h1 align="center">Codex Skill Publishing Workflow</h1>
 
-<p align="center">Publish or update local skills in Chinese on RED Skill (Xiaohongshu) and Tencent SkillHub.</p>
+<p align="center">Publish local skills or AGENTS rules to GitHub, and publish or update Chinese platform copies on RED Skill (Xiaohongshu) and Tencent SkillHub.</p>
 <p align="center"><a href="./README.md">中文</a> · <a href="./README.en.md">English</a></p>
 
 ## Included Skill
 
-[`red-tencent-skill-publish`](skills/red-tencent-skill-publish/SKILL.md) unifies RED and Tencent publishing and supports either user-selected platform or both. Updates preserve existing platform identities.
+[`red-tencent-skill-publish`](skills/red-tencent-skill-publish/SKILL.md) covers GitHub, RED, and Tencent publishing for one or more user-selected platforms. Updates preserve existing platform identities.
 
+- Preserve AGENTS rule sources and conditional topic documents. Add a short root `SKILL.md` in the platform copy and keep complete rules in references; do not automatically modify global AGENTS or enable hooks.
+- Use platform-specific display names: “Skill多平台发布助手” on both platforms, preserving IDs and slugs.
 - Translate English and Japanese instructions into a complete Chinese publishing copy, preserving rules, commands, and references. Keep the source repository language unless requested otherwise.
 - Reuse existing IDs and slugs; prefer CLI content updates without creating duplicate listings.
 - Use the current official production RED tool. Load CLI updates and expired authorization recovery only when needed; use the browser to obtain the official tool, authorize, and verify listings.
 - Use the Tencent website for a first publication requiring a platform icon. Prefer CLI for subsequent content updates; use the website to change the icon. An image inside a bundle does not set the platform icon.
 - Use light backgrounds and modern flat icons with few elements; keep each series consistent and functions distinct. For icon-only changes, reuse the current skill files on the website.
+- Separate conditional workflows cover RED and Tencent setup, CLI publishing, and website publishing. Credentials remain in their official stores.
+- Store actual Private References outside the installed skill; share only a blank template. Build platform copies from an explicit public file manifest, excluding personal records and internal receipts.
 - Verify metadata, package content, and authorization. Report local validation, review submission, and public release separately for each platform.
 
 ## Use
@@ -32,7 +36,7 @@ Use $red-tencent-skill-publish for a first Tencent SkillHub publication with an 
 
 ## Resources
 
-The main file contains shared rules and conditional entry points. Platform workflows, translation, RED CLI authorization recovery, field limits, and categories live in [references](skills/red-tencent-skill-publish/references). The two scripts validate RED publishing copies and update existing listings through official modules; they do not replace authorization or prove audit approval.
+The main file contains shared rules and conditional entry points. Platform workflows, translation, RED CLI authorization recovery, field limits, and categories live in [references](skills/red-tencent-skill-publish/references). The three scripts build public copies from an explicit manifest, validate RED fields, and update existing listings through official modules; they do not replace authorization or prove audit approval.
 
 Exclude credentials, cookies, private logs, databases, backups, account screenshots, and private paths. RED bundles exclude `agents/`. Verify current official tool capabilities and versions for each run.
 
