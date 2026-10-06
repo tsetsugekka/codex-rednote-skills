@@ -6,7 +6,7 @@
 
 本 Skill 的 `PUBLIC-FILES.txt` 是公开资源唯一清单：根入口、Workflow／Reference、脚本、空白私人模板。`agents/openai.yaml` 是公开本地 UI 配置，可随 GitHub 保留，RED／腾讯包不包含它。实际账号记录、发布回执、私有路径及内部任务文档不进 GitHub 或清单。
 
-发布其它 Skill 时，由执行者检查公开范围并提供清单文件，每行一个包内相对文件路径。AGENTS 规则先生成根入口和所需 references，再列清单；只有改名／复制文件不足以证明安全。隐藏目录、私人文件、凭据与软链接不列入。
+发布其它 Skill 时，由执行者检查公开范围并提供清单文件，每行一个包内相对文件路径。AGENTS 规则先生成根入口和所需 references，再列清单；只有改名／复制文件不足以证明安全。隐藏目录、私人文件、凭据与软链接不列入。文件名中的 private 若指公开技术主题，不自动等于个人记录；阅读全文确认通用内容后才加入清单，真实私人记录仍排除。
 
 ```bash
 python scripts/prepare_public_skill.py --source "<源目录>" --manifest "<公开清单文件>" --output "<空的公开副本目录>"

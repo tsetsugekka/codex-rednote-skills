@@ -26,8 +26,8 @@ def allowed_name(rel):
     name = parts[-1]
     if name in PRIVATE_NAMES or name.endswith(PRIVATE_SUFFIXES):
         raise ValueError(f"private file: {rel}")
-    if name.startswith("private") and not name.endswith(".template.md"):
-        raise ValueError(f"personal record is not a public template: {rel}")
+    # Topic names such as private-page-sharing-patterns.md are not personal records.
+    # The explicit manifest and content review determine their public eligibility.
 
 
 def manifest_files(manifest):

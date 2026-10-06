@@ -11,9 +11,9 @@ description: 将本地 Skill 或 AGENTS.md 规则发布或更新到 GitHub、RED
 
 - 以用户指定的本地目录或 GitHub 版本为源，完整读取源 `SKILL.md`／AGENTS 规则及本次会执行或发布的资源；本地已有源时先复用。比较最新版本时核对指定远端分支，不能把本地旧快照当作 GitHub 最新版。
 - 源为 `AGENTS.md` 或其按需专题时，按 [AGENTS 规则包装](references/agents-wrapper.md) 制作带 `SKILL.md` 的平台副本；保留源规则形态与按需读取方式。
-- RED 与腾讯均以中文发布。英文、日文源 Skill 的简介、主说明、发布说明和随包说明文档先完整翻译成中文；保留命令、参数、标识符、链接和规则含义。详见 [中文发布副本](references/publishing-language.md)。
+- RED、腾讯 SkillHub 与 AI Hub 的发布内容使用中文，包括 README、SKILL.md 和随包说明。英文、日文源先制作完整中文发布副本；不为发布翻译改动本地安装版或 GitHub 源文件，原本中文可直接复用。保留命令、参数、标识符、链接和规则含义。详见 [中文发布副本](references/publishing-language.md)。
 - 账号、条目映射、本机配置和发布回执按 [私人记录契约](references/local-context.md) 存在 Skill 目录外；公开资源只含通用流程与空白模板。实际私人记录不提交 GitHub、不进入任一平台包，密钥仍由官方凭据存储管理。
-- 默认在临时目录制作发布副本，保留源目录；用户要求修改 Skill 本身时才同步源文件。一个包只含一个 Skill；不上传凭据、私有路径、日志、数据库、备份和账号截图。
+- 默认在临时目录制作发布副本；发布结果核实后清理仅为本次发布生成的中文副本、临时说明和包，失败／中止也在记录安全回执后清理。更新台账时只保留来源、摘要、身份与实际状态；用户明确要求留存的副本除外。保留源目录；用户要求修改 Skill 本身时才同步源文件。一个包只含一个 Skill；不上传凭据、私有路径、日志、数据库、备份和账号截图。
 - 更新复用原条目身份：RED 数字 `skill_id` 和 `skill_identifier`，腾讯所有者及 `slug`。新版本递增，保留既有展示名、来源、分类和图标，除非用户要求更改。展示名可按各平台长度与用途分别设置，不改变 identifier／slug。翻译或增加包装不改变原创／转载归属。
 - 使用当前官方工具。正常内容更新优先 CLI；RED 网页可用于查找官方工具、登录和核对条目。用户只授权通过网页修复 CLI 时，不转成网页提交。
 - 正式提交前验证中文副本、文件清单和平台实际待提交字段。复用会话中已明确的来源、分类、版本和提交授权；仅缺失或实质变化时询问，不反复确认已有决定。
@@ -34,7 +34,7 @@ description: 将本地 Skill 或 AGENTS.md 规则发布或更新到 GitHub、RED
 | 腾讯网页首发／更新／上传图标 | [腾讯网页流程](references/tencent-web.md) |
 | 用户指定 RED 网页提交 | [RED 网页流程](references/red-web.md) |
 | 腾讯图标设计、系列风格或仅改图标 | [腾讯图标规范](references/tencent-icons.md) |
-| 英文／日文源、双平台翻译与内容对齐 | [中文发布副本](references/publishing-language.md) |
+| 英文／日文源、RED／腾讯／AI Hub 中文发布与源文件保护 | [中文发布副本](references/publishing-language.md) |
 | RED 名称截断、包拒绝、ID 冲突、提交拒绝 | [RED 故障处理](references/troubleshooting.md) |
 | 同时修改 GitHub README／仓库简介 | [社区语言选择](references/community-language.md) |
 

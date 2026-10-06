@@ -9,7 +9,7 @@
 
 - Preserve AGENTS rule sources and conditional topic documents. Add a short root `SKILL.md` in the platform copy and keep complete rules in references; do not automatically modify global AGENTS or enable hooks.
 - Use platform-specific display names: “Skill多平台发布助手” on both platforms, preserving IDs and slugs.
-- Translate English and Japanese instructions into a complete Chinese publishing copy, preserving rules, commands, and references. Keep the source repository language unless requested otherwise.
+- Use complete Chinese publishing copies of README, SKILL.md, and publishing instructions for RED, Tencent SkillHub, and AI Hub, preserving rules, commands, and references. Do not translate installed originals or GitHub source files solely for publishing; reuse existing Chinese content. After verifying the outcome, remove temporary Chinese copies and bundles created only for publishing, including failed or cancelled attempts.
 - Reuse existing IDs and slugs; prefer CLI content updates without creating duplicate listings.
 - Use the current official production RED tool. Load CLI updates and expired authorization recovery only when needed; use the browser to obtain the official tool, authorize, and verify listings.
 - Use the Tencent website for a first publication requiring a platform icon. Prefer CLI for subsequent content updates; use the website to change the icon. An image inside a bundle does not set the platform icon.
