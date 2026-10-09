@@ -1,11 +1,11 @@
-<h1 align="center">Codex Skill Publishing Workflow</h1>
+<h1 align="center">Skill Multi-Platform Publishing Assistant</h1>
 
 <p align="center">Publish local skills or AGENTS rules to GitHub, and publish or update Chinese platform copies on RED Skill (Xiaohongshu) and Tencent SkillHub.</p>
 <p align="center"><a href="./README.md">中文</a> · <a href="./README.en.md">English</a></p>
 
 ## Included Skill
 
-[`red-tencent-skill-publish`](skills/red-tencent-skill-publish/SKILL.md) covers GitHub, RED, and Tencent publishing for one or more user-selected platforms. Updates preserve existing platform identities.
+The repository and Skill share the identifier [`red-tencent-skill-publish`](skills/red-tencent-skill-publish/SKILL.md). It covers GitHub, RED, and Tencent publishing for one or more user-selected platforms. Updates preserve existing platform identities.
 
 - Preserve AGENTS rule sources and conditional topic documents. Add a short root `SKILL.md` in the platform copy and keep complete rules in references; do not automatically modify global AGENTS or enable hooks.
 - Use platform-specific display names: “Skill多平台发布助手” on both platforms, preserving IDs and slugs.
@@ -13,7 +13,7 @@
 - Reuse existing IDs and slugs; prefer CLI content updates without creating duplicate listings.
 - Use the current official production RED tool. Load CLI updates and expired authorization recovery only when needed; use the browser to obtain the official tool, authorize, and verify listings.
 - Use the Tencent website for a first publication requiring a platform icon. Prefer CLI for subsequent content updates; use the website to change the icon. An image inside a bundle does not set the platform icon.
-- Use light backgrounds and modern flat icons with few elements; keep each series consistent and functions distinct. For icon-only changes, reuse the current skill files on the website.
+- Use light backgrounds and modern flat icons with few elements. The [icon reference](skills/red-tencent-skill-publish/references/tencent-icons.md) includes color values, composition proportions, a Markdown prompt template, and written examples. Preserve each series' background and outline while distinguishing functions. For icon-only changes, reuse the current skill files on the website.
 - Separate conditional workflows cover RED and Tencent setup, CLI publishing, and website publishing. Credentials remain in their official stores.
 - Store actual Private References outside the installed skill; share only a blank template. Build platform copies from an explicit public file manifest, excluding personal records and internal receipts.
 - Verify metadata, package content, and authorization. Report local validation, review submission, and public release separately for each platform.
